@@ -6,11 +6,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using SavvyStudy.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace SavvyStudy.Controllers
 {
     public class WordController : Controller
     {
+        private readonly IConfiguration _config;
+        public WordController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+
+        public SqlConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
+        }
+
+
         // GET: Word
         public ActionResult Index()
         {
@@ -37,12 +54,9 @@ namespace SavvyStudy.Controllers
                             });
                     }
                     reader.Close();
-return View();
-
+                    return View();
                 }
             }
-
-            
         }
 
         // GET: Word/Details/5
