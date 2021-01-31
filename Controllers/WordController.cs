@@ -54,7 +54,7 @@ namespace SavvyStudy.Controllers
                             });
                     }
                     reader.Close();
-                    return View();
+                    return View(words);
                 }
             }
         }

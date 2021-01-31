@@ -127,3 +127,4 @@ C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.V
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.dll
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.pdb
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.genruntimeconfig.cache
+C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Index.cshtml.g.cs
