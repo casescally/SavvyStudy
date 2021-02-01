@@ -40,10 +40,10 @@ namespace SavvyStudy.Controllers
 
                     var reader = cmd.ExecuteReader();
                     var words = new List<Word>();
-
+                   
                     while(reader.Read())
                     {
-                        words.Add(new Word()
+                        var word = new Word()
                         { 
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
@@ -51,7 +51,8 @@ namespace SavvyStudy.Controllers
                             Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
                             Phrase = reader.GetInt32(reader.GetOrdinal("Phrase")),
                             Language = reader.GetString(reader.GetOrdinal("Language"))
-                            });
+                            };
+                        words.Add(word);
                     }
                     reader.Close();
                     return View(words);
