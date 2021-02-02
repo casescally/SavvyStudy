@@ -128,3 +128,4 @@ C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.d
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.pdb
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.genruntimeconfig.cache
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Index.cshtml.g.cs
+C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Details.cshtml.g.cs
