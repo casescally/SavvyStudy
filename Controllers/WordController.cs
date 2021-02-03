@@ -98,7 +98,6 @@ namespace SavvyStudy.Controllers
                     return View(word);
                 }
             }
-            //return View();
         }
 
         // GET: Word/Create
@@ -110,13 +109,30 @@ namespace SavvyStudy.Controllers
         // POST: Word/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Word word)
         {
             try
             {
-                // TODO: Add insert logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"INSERT INTO Words (Untranslated, Translated, Pronunciation, Phrase, Language)
+                                            OUTPUT INSERTED.Id
+                                            VALUES (@untranslated, @translated, @pronunciation, @phrase, @language)";
+                        cmd.Parameters.Add(new SqlParameter("@untranslated", word.Untranslated));
+                        cmd.Parameters.Add(new SqlParameter("@translated", word.Translated));
+                        cmd.Parameters.Add(new SqlParameter("@pronunciation", word.Pronunciation));
+                        cmd.Parameters.Add(new SqlParameter("@phrase", word.Phrase));
+                        cmd.Parameters.Add(new SqlParameter("@language", word.Language));
 
-                return RedirectToAction(nameof(Index));
+                        var id = (int)cmd.ExecuteScalar();
+                        word.Id = id;
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
             catch
             {
