@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using SavvyStudy.Models;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SavvyStudy.Controllers
 {
@@ -63,7 +64,41 @@ namespace SavvyStudy.Controllers
         // GET: Word/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                      SELECT W.Id,
+                                        w.Untranslated,
+                                        w.Translated,
+                                        w.Pronunciation,
+                                        w.Phrase,
+                                        w.Language
+                                      FROM Words w
+                                      ";
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Word word = null;
+                    while (reader.Read())
+                    {
+                        word = new Word
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Phrase = reader.GetInt32(reader.GetOrdinal("Phrase")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+                    }
+                    reader.Close();
+                    return View(word);
+                }
+            }
+            //return View();
         }
 
         // GET: Word/Create
