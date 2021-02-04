@@ -69,15 +69,22 @@ namespace SavvyStudy.Controllers
                 conn.Open();
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
+
+cmd.Parameters.Add(new SqlParameter("@id", id));
+
                     cmd.CommandText = @"
-                                      SELECT W.Id,
+                                      SELECT w.Id,
                                         w.Untranslated,
                                         w.Translated,
                                         w.Pronunciation,
                                         w.Phrase,
                                         w.Language
                                       FROM Words w
+                                      WHERE w.Id = @id
                                       ";
+                    
+                    
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     Word word = null;
@@ -109,7 +116,7 @@ namespace SavvyStudy.Controllers
         // POST: Word/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Word word)
+        public ActionResult Create(Word word, Phrase phrase)
         {
             try
             {
@@ -118,23 +125,28 @@ namespace SavvyStudy.Controllers
                     conn.Open();
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO Words (Untranslated, Translated, Pronunciation, Phrase, Language)
+                        cmd.CommandText = @"INSERT INTO Words (Untranslated, Translated, Pronunciation, Language)
                                             OUTPUT INSERTED.Id
-                                            VALUES (@untranslated, @translated, @pronunciation, @phrase, @language)";
+                                            VALUES (@untranslated, @translated, @pronunciation, @language)
+                                            INSERT INTO Phrases (Untranslated, Translated, Pronunciation, DifficultyLevel, Language)
+                                            OUTPUT INSERTED.Id
+                                            VALUES (@phrase, 1, 1, 1, 1)";
                         cmd.Parameters.Add(new SqlParameter("@untranslated", word.Untranslated));
                         cmd.Parameters.Add(new SqlParameter("@translated", word.Translated));
                         cmd.Parameters.Add(new SqlParameter("@pronunciation", word.Pronunciation));
-                        cmd.Parameters.Add(new SqlParameter("@phrase", word.Phrase));
+                        //cmd.Parameters.Add(new SqlParameter("@phrase", word.Phrase));
                         cmd.Parameters.Add(new SqlParameter("@language", word.Language));
+                        cmd.Parameters.Add(new SqlParameter("@phrase", phrase.Untranslated));
 
                         var id = (int)cmd.ExecuteScalar();
+                        var phraseId = (int)cmd.ExecuteScalar();
                         word.Id = id;
-
+                        phrase.Id = phraseId;
                         return RedirectToAction(nameof(Index));
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
