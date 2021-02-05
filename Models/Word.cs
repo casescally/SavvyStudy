@@ -11,7 +11,6 @@ namespace SavvyStudy.Models
         public string Untranslated { get; set; }
         public string Translated { get; set; }
         public string Pronunciation { get; set; }
-        public int Phrase { get; set; }
         public string Language { get; set; }
     }
 }

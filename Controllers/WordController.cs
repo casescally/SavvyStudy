@@ -50,7 +50,6 @@ namespace SavvyStudy.Controllers
                             Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
                             Translated = reader.GetString(reader.GetOrdinal("Translated")),
                             Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
-                            Phrase = reader.GetInt32(reader.GetOrdinal("Phrase")),
                             Language = reader.GetString(reader.GetOrdinal("Language"))
                             };
                         words.Add(word);
@@ -77,7 +76,6 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                                         w.Untranslated,
                                         w.Translated,
                                         w.Pronunciation,
-                                        w.Phrase,
                                         w.Language
                                       FROM Words w
                                       WHERE w.Id = @id
@@ -96,7 +94,6 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                             Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
                             Translated = reader.GetString(reader.GetOrdinal("Translated")),
                             Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
-                            Phrase = reader.GetInt32(reader.GetOrdinal("Phrase")),
                             Language = reader.GetString(reader.GetOrdinal("Language"))
                         };
 
@@ -127,21 +124,17 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     {
                         cmd.CommandText = @"INSERT INTO Words (Untranslated, Translated, Pronunciation, Language)
                                             OUTPUT INSERTED.Id
-                                            VALUES (@untranslated, @translated, @pronunciation, @language)
-                                            INSERT INTO Phrases (Untranslated, Translated, Pronunciation, DifficultyLevel, Language)
-                                            OUTPUT INSERTED.Id
-                                            VALUES (@phrase, 1, 1, 1, 1)";
+                                            VALUES (@untranslated, @translated, @pronunciation, @language)";
+
                         cmd.Parameters.Add(new SqlParameter("@untranslated", word.Untranslated));
                         cmd.Parameters.Add(new SqlParameter("@translated", word.Translated));
                         cmd.Parameters.Add(new SqlParameter("@pronunciation", word.Pronunciation));
-                        //cmd.Parameters.Add(new SqlParameter("@phrase", word.Phrase));
                         cmd.Parameters.Add(new SqlParameter("@language", word.Language));
-                        cmd.Parameters.Add(new SqlParameter("@phrase", phrase.Untranslated));
 
                         var id = (int)cmd.ExecuteScalar();
-                        var phraseId = (int)cmd.ExecuteScalar();
+
                         word.Id = id;
-                        phrase.Id = phraseId;
+
                         return RedirectToAction(nameof(Index));
                     }
                 }
