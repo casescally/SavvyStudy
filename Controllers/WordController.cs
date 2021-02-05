@@ -37,7 +37,7 @@ namespace SavvyStudy.Controllers
                 conn.Open();
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT Id, Untranslated, Translated, Pronunciation, Phrase, Language FROM Words";
+                    cmd.CommandText = "SELECT Id, Untranslated, Translated, Pronunciation, Language FROM Words";
 
                     var reader = cmd.ExecuteReader();
                     var words = new List<Word>();
@@ -171,24 +171,69 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         // GET: Word/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var word = GetWordById(id);
+            return View(word);
         }
 
         // POST: Word/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteWord([FromRoute] int id)
         {
             try
             {
-                // TODO: Add delete logic here
+                using(SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "DELETE FROM Words WHERE Id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
         }
+
+
+                private Word GetWordById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Id, Untranslated, Translated, Pronunciation, Language FROM Words WHERE Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    var reader = cmd.ExecuteReader();
+                    Word word = null;
+
+                    if (reader.Read())
+                    {
+                        word = new Word()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+                    }
+                    reader.Close();
+                    return word;
+                }
+            }
+        }
+
     }
 }

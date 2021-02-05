@@ -2,7 +2,6 @@ C:\Users\casescally\source\repos\SavvyStudy\bin\Debug\netcoreapp3.1\appsettings.
 C:\Users\casescally\source\repos\SavvyStudy\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\casescally\source\repos\SavvyStudy\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\casescally\source\repos\SavvyStudy\bin\Debug\netcoreapp3.1\SavvyStudy.exe
-C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.csprojAssemblyReference.cache
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.RazorAssemblyInfo.cache
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.RazorAssemblyInfo.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.AssemblyInfoInputs.cache
@@ -130,3 +129,4 @@ C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.g
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Index.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Details.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Create.cshtml.g.cs
+C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Delete.cshtml.g.cs
