@@ -154,19 +154,81 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         // POST: Word/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
+        public ActionResult Edit(int id, Word word)
+{
+                try
             {
-                // TODO: Add update logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
 
-                return RedirectToAction(nameof(Index));
+                    using (SqlCommand cmd = conn.CreateCommand())
+
+                    {
+
+                        cmd.CommandText = @"UPDATE Word
+                                            SET Untranslated = @untranslated, Translated = @translated, Pronuciation = @pronunciation, Language = @language
+                                            WHERE Id = @id";
+
+                        cmd.Parameters.Add(new SqlParameter("@untranslated", word.Untranslated));
+                        cmd.Parameters.Add(new SqlParameter("@translated", word.Translated));
+                        cmd.Parameters.Add(new SqlParameter("@pronunciation", word.Pronunciation));
+                        cmd.Parameters.Add(new SqlParameter("@language", word.Language));
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+
+                        {
+                            return new StatusCodeResult(StatusCodes.Status204NoContent);
+                        }
+                        throw new Exception("No rows affected");
+                    }
+                }
             }
-            catch
+
+            catch (Exception)
+
             {
-                return View();
+                if (!WordExists(id))
+
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            bool WordExists(int id)
+
+        {
+
+            using (SqlConnection conn = Connection)
+
+            {
+
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+
+                {
+
+                    cmd.CommandText = @"Select Id, Untranslated, Translated, Pronunciation, Language
+                                        FROM Words
+                                        Where Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    return reader.Read();
+
+                } 
             }
         }
+    }
 
         // GET: Word/Delete/5
         public ActionResult Delete(int id)
