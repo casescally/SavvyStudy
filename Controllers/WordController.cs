@@ -166,14 +166,15 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
                     {
 
-                        cmd.CommandText = @"UPDATE Word
-                                            SET Untranslated = @untranslated, Translated = @translated, Pronuciation = @pronunciation, Language = @language
+                        cmd.CommandText = @"UPDATE Words
+                                            SET Untranslated = @untranslated, Translated = @translated, Pronunciation = @pronunciation, Language = @language
                                             WHERE Id = @id";
 
                         cmd.Parameters.Add(new SqlParameter("@untranslated", word.Untranslated));
                         cmd.Parameters.Add(new SqlParameter("@translated", word.Translated));
                         cmd.Parameters.Add(new SqlParameter("@pronunciation", word.Pronunciation));
                         cmd.Parameters.Add(new SqlParameter("@language", word.Language));
+                        cmd.Parameters.Add(new SqlParameter("@id", word.Id));
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
