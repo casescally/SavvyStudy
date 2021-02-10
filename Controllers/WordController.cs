@@ -148,7 +148,9 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         // GET: Word/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var word = GetWordById(id);
+
+            return View(word);
         }
 
         // POST: Word/Edit/5
