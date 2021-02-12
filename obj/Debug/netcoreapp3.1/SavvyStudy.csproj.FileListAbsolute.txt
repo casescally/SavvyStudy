@@ -132,3 +132,4 @@ C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Delete.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.csprojAssemblyReference.cache
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Edit.cshtml.g.cs
+C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\WordUntranslatedTypedPractice.cshtml.g.cs

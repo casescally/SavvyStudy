@@ -1,10 +1,10 @@
 ﻿@model SavvyStudy.Models.Word
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "WordUntranslatedTypedPractice";
+
 }
 
-<h1>Edit</h1>
+<h1>WordUntranslatedTypedPractice</h1>
 
 <h4>Word</h4>
 <hr />
@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Untranslated" class="control-label"></label>
-                <input asp-for="Untranslated" class="form-control" />
+                <input asp-for="Untranslated" class="form-control" id="userInput" />
                 <span asp-validation-for="Untranslated" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,8 +33,11 @@
                 <span asp-validation-for="Language" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" onclick="alert('Updated')" onsubmit="location.href ='Index'"/>
-</div>
+                <input type="button" class="btn btn-primary" onclick="function checkAnswer() {
+            debugger
+        if (document.getElementById(userInput) == 'test') { alert('Correct') } else { console.log(document.getElementById('userInput')) }
+    } checkAnswer();" />
+            </div>
         </form>
     </div>
 </div>
