@@ -8,34 +8,53 @@
 
 <h4>Word</h4>
 <hr />
+
+
+<dl class="row">
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Translated)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Translated)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Pronunciation)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Pronunciation)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Language)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Language)
+    </dd>
+</dl>
+
+
 <div class="row">
     <div class="col-md-4">
+
+
+
+
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Untranslated" class="control-label"></label>
-                <input asp-for="Untranslated" class="form-control" id="userInput" />
+                <input asp-for="Untranslated" class="form-control" id="userInput" type="hidden"/>
                 <span asp-validation-for="Untranslated" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Translated" class="control-label"></label>
-                <input asp-for="Translated" class="form-control" />
-                <span asp-validation-for="Translated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pronunciation" class="control-label"></label>
-                <input asp-for="Pronunciation" class="form-control" />
-                <span asp-validation-for="Pronunciation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Language" class="control-label"></label>
-                <input asp-for="Language" class="form-control" />
-                <span asp-validation-for="Language" class="text-danger"></span>
-            </div>
+
+
+
+
             <div class="form-group">
                 <input type="button" class="btn btn-primary" onclick="function checkAnswer() {
-            debugger
-        if (document.getElementById(userInput) == 'test') { alert('Correct') } else { console.log(document.getElementById('userInput')) }
+
+    if (document.getElementById('userInput').value == document.getElementById('userInput').defaultValue) { alert('Correct') } else { alert(document.getElementById('userInput').value + ' is incorrect.') && console.log(document.getElementById('userInput')) }
+
     } checkAnswer();" />
             </div>
         </form>
