@@ -150,7 +150,51 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         }
 
 
+                // POST: Word/WordUntranslatedTypedPractice/5
+                [HttpPost]
+        public ActionResult WordUntranslatedTypedPractice(int id, string untranslatedGuess)
+        {
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
 
+cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    cmd.CommandText = @"
+                                      SELECT w.Id,
+                                        w.Untranslated,
+                                        w.Translated,
+                                        w.Pronunciation,
+                                        w.Language
+                                      FROM Words w
+                                      WHERE w.Id = @id
+                                      ";
+                    
+                    
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Word word = null;
+                    while (reader.Read())
+                    {
+                        word = new Word
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+                    }
+                    reader.Close();
+                    word.Untranslated = untranslatedGuess;
+                    return View(word);
+                }
+            }
+        }
 
 
         // GET: Word/Create
