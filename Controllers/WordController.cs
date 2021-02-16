@@ -126,8 +126,6 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                                       WHERE w.Id = @id
                                       ";
                     
-                    
-
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     Word word = null;
@@ -152,8 +150,9 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
                 // POST: Word/WordUntranslatedTypedPractice/5
                 [HttpPost]
-        public ActionResult WordUntranslatedTypedPractice(int id, string untranslatedGuess)
+        public ActionResult WordUntranslatedTypedPractice(int id, IFormCollection collection)
         {
+            string untranslatedGuess = collection["untranslatedGuess"];
             using(SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -171,8 +170,6 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                                       FROM Words w
                                       WHERE w.Id = @id
                                       ";
-                    
-                    
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -190,8 +187,16 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
                     }
                     reader.Close();
-                    word.Untranslated = untranslatedGuess;
-                    return View(word);
+                    
+                    if (word.Untranslated == untranslatedGuess)
+                    {
+                        return View("WordUntranslatedTypedPractice", word);
+                    } else
+                    {
+                        return View("WordUntranslatedTypedPracticeIncorrect", word);
+                    }
+                    
+                    
                 }
             }
         }
