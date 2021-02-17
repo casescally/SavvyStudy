@@ -107,7 +107,11 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
         // GET: Word/WordUntranslatedTypedPractice/5
         public ActionResult WordUntranslatedTypedPractice(int id)
+
         {
+            Random rnd = new Random();
+                id  = rnd.Next(3, 4); 
+
             using(SqlConnection conn = Connection)
             {
                 conn.Open();
