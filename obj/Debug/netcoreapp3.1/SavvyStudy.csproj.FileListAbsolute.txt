@@ -134,3 +134,4 @@ C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\SavvyStudy.c
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Edit.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\WordUntranslatedTypedPractice.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\WordUntranslatedTypedPracticeIncorrect.cshtml.g.cs
+C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\WordUntranslatedTypedPracticeCorrect.cshtml.g.cs

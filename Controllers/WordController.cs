@@ -106,11 +106,11 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
 
         // GET: Word/WordUntranslatedTypedPractice/5
-        public ActionResult WordUntranslatedTypedPractice(int id)
+        public ActionResult WordUntranslatedTypedPractice()
 
         {
-            Random rnd = new Random();
-                id  = rnd.Next(3, 4); 
+                        Random rnd = new Random();
+                int id  = rnd.Next(4, 6); 
 
             using(SqlConnection conn = Connection)
             {
@@ -157,6 +157,8 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         public ActionResult WordUntranslatedTypedPractice(int id, IFormCollection collection)
         {
             string untranslatedGuess = collection["untranslatedGuess"];
+
+
             using(SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -194,7 +196,7 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     
                     if (word.Untranslated == untranslatedGuess)
                     {
-                        return View("WordUntranslatedTypedPractice", word);
+                        return View("WordUntranslatedTypedPracticeCorrect", word);
                     } else
                     {
                         return View("WordUntranslatedTypedPracticeIncorrect", word);
