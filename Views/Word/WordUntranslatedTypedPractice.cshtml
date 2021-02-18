@@ -1,7 +1,8 @@
-﻿@model SavvyStudy.Models.Word
+﻿@model SavvyStudy.Models.WordUntranslatedPracticeViewModel
 @{
     ViewData["Title"] = "WordUntranslatedTypedPractice";
 
+    var nextWords = new List<Word>();
 }
 
 <h1>WordUntranslatedTypedPractice</h1>
@@ -29,6 +30,13 @@
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.Language)
+    </dd>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.NextWords[0].Untranslated)
+    </dd>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.NextWords[1].Untranslated)
     </dd>
 </dl>
 

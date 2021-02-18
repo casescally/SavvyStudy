@@ -110,7 +110,8 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
         {
                         Random rnd = new Random();
-                int id  = rnd.Next(4, 6); 
+                int id  = rnd.Next(4, 6);
+                   
 
             using(SqlConnection conn = Connection)
             {
@@ -132,10 +133,12 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    Word word = null;
+                    WordUntranslatedPracticeViewModel wordVM = null;
+
+
                     while (reader.Read())
                     {
-                        word = new Word
+                        wordVM = new WordUntranslatedPracticeViewModel
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
@@ -144,15 +147,19 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                             Language = reader.GetString(reader.GetOrdinal("Language"))
                         };
 
+
+            wordVM.NextWords = GetNextWords(id); //retrieves from database
+
+
                     }
                     reader.Close();
-                    return View(word);
+                    return View(wordVM);
                 }
             }
         }
 
 
-                // POST: Word/WordUntranslatedTypedPractice/5
+                // POST: Word/WordUntranslatedTypedPractice/
                 [HttpPost]
         public ActionResult WordUntranslatedTypedPractice(int id, IFormCollection collection)
         {
@@ -206,6 +213,54 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                 }
             }
         }
+
+
+
+        private List<Word> GetNextWords(int currentWordId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+
+                    cmd.Parameters.Add(new SqlParameter("@CurrentWordId", currentWordId));
+
+                            cmd.CommandText = @"
+                                      SELECT w.Id AS NextWordId,
+                                        w.Untranslated AS NextWordUntranslated,
+                                        w.Translated AS NextWordTranslated,
+                                        w.Pronunciation AS NextWordPronunciation,
+                                        w.Language AS NextWordLanguage
+                                        FROM Words w
+                                      WHERE w.Id != @CurrentWordId
+                                      ";
+
+                    var reader = cmd.ExecuteReader();
+
+                    var nextWords = new List<Word>();
+
+                    while (reader.Read())
+                    {
+                        var nextWord = new Word()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("NextWordId")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("NextWordUntranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("NextWordTranslated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("NextWordPronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("NextWordLanguage"))
+                        };
+
+                        nextWords.Add(nextWord);
+
+                    }
+                    reader.Close();
+                    return nextWords;
+                }
+            }
+        }
+
+
 
 
         // GET: Word/Create
