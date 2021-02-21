@@ -110,7 +110,7 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
         {
                         Random rnd = new Random();
-                int id  = rnd.Next(4, 6);
+                int id  = rnd.Next(4, 8);
                    
 
             using(SqlConnection conn = Connection)
