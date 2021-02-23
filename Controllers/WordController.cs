@@ -216,6 +216,116 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
 
 
+        // GET: Word/WordTranslatedTypedPractice/5
+        public ActionResult WordTranslatedTypedPractice()
+
+        {
+                        Random rnd = new Random();
+                int id  = rnd.Next(4, 8);
+                   
+
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+
+cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    cmd.CommandText = @"
+                                      SELECT w.Id,
+                                        w.Untranslated,
+                                        w.Translated,
+                                        w.Pronunciation,
+                                        w.Language
+                                      FROM Words w
+                                      WHERE w.Id = @id
+                                      ";
+                    
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    WordUntranslatedPracticeViewModel wordVM = null;
+
+
+                    while (reader.Read())
+                    {
+                        wordVM = new WordUntranslatedPracticeViewModel
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+
+            wordVM.NextWords = GetNextWords(id); //retrieves from database
+
+
+                    }
+                    reader.Close();
+                    return View(wordVM);
+                }
+            }
+        }
+
+
+
+                // POST: Word/TranslatedTypedPractice/
+                [HttpPost]
+        public ActionResult WordTranslatedTypedPractice(int id, IFormCollection collection)
+        {
+            string translatedGuess = collection["translatedGuess"];
+
+
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+
+cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    cmd.CommandText = @"
+                                      SELECT w.Id,
+                                        w.Untranslated,
+                                        w.Translated,
+                                        w.Pronunciation,
+                                        w.Language
+                                      FROM Words w
+                                      WHERE w.Id = @id
+                                      ";
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Word word = null;
+                    while (reader.Read())
+                    {
+                        word = new Word
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+                    }
+                    reader.Close();
+                    
+                    if (word.Untranslated == translatedGuess)
+                    {
+                        return View("TranslatedTypedPracticeCorrect", word);
+                    } else
+                    {
+                        return View("TranslatedTypedPracticeIncorrect", word);
+                    }
+                    
+                    
+                }
+            }
+        }
+
         private List<Word> GetNextWords(int currentWordId)
         {
             using (SqlConnection conn = Connection)

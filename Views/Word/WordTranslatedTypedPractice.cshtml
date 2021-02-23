@@ -1,0 +1,102 @@
+﻿@model SavvyStudy.Models.WordUntranslatedPracticeViewModel
+@{
+    ViewData["Title"] = "WordTranslatedTypedPractice";
+}
+
+<h1>WordTranslatedTypedPractice</h1>
+
+<dl class="row">
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Translated)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Translated)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Pronunciation)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Pronunciation)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Language)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Language)
+    </dd>
+</dl>
+<ul id="test-list">
+    <div class="col-sm-10 answer" onclick="selected(this)">
+        @Html.DisplayFor(model => model.NextWords[0].Translated)
+    </div>
+    <div class="col-sm-10 answer" onclick="selected(this)">
+        @Html.DisplayFor(model => model.NextWords[1].Translated)
+    </div>
+    <div class="col-sm-10 answer" onclick="selected(this)">
+        @Html.DisplayFor(model => model.NextWords[2].Translated)
+    </div>
+    <div class="col-sm-10 answer" onclick="selected(this)">
+        @Html.DisplayFor(model => model.Untranslated)
+    </div>
+</ul>
+<script>
+    var divItems = document.getElementsByClassName("col-sm-10 answer");
+
+    window.onload = function getInput() {
+
+        var ul = document.getElementById("test-list");
+
+        for (var i = ul.children.length; i >= 0; i--) {
+            ul.appendChild(ul.children[Math.random() * i | 0]);
+        }
+        //clear the default value so the user must select an answer to answer the question
+        document.getElementById("userInput").defaultValue = "";
+    }
+
+    function selected(item) {
+        this.clear();
+        item.style = "border: 1px solid green;";
+
+        //sets user's answer
+        document.getElementById("userInput").value = item.innerHTML.substring(9).replace(/\s/g, "");
+    }
+    function clear() {
+        for (var i = 0; i < divItems.length; i++) {
+            var item = divItems[i];
+            item.style.border = 'none';
+        }
+    }
+</script>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="WordUntranslatedTypedPractice">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label hidden asp-for="Translated" class="control-label"></label>
+                <input hidden asp-for="Translated" class="form-control" id="userInput" name="translatedGuess" />
+                <span asp-validation-for="Translated" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label hidden asp-for="Id" class="control-label"></label>
+                <input hidden asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Check" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
