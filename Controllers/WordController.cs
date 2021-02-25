@@ -109,8 +109,12 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         public ActionResult WordUntranslatedTypedPractice()
 
         {
-                        Random rnd = new Random();
-                int id  = rnd.Next(4, 8);
+                        //Random rnd = new Random();
+                //int id  = rnd.Next(0, 1);
+
+                            int id = new int();
+            Word randomword = GetRandomWord();
+            id = randomword.Id;
                    
 
             using(SqlConnection conn = Connection)
@@ -118,6 +122,11 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                 conn.Open();
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
+
+
+
+
+
 
 cmd.Parameters.Add(new SqlParameter("@id", id));
 
@@ -220,9 +229,11 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         public ActionResult WordTranslatedTypedPractice()
 
         {
-                        Random rnd = new Random();
-                int id  = rnd.Next(4, 8);
-                   
+                        //Random rnd = new Random();
+                //rnd.Next(0, 1);
+            int id = new int();
+            Word randomword = GetRandomWord();
+            id = randomword.Id;
 
             using(SqlConnection conn = Connection)
             {
@@ -245,7 +256,6 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     WordUntranslatedPracticeViewModel wordVM = null;
-
 
                     while (reader.Read())
                     {
@@ -533,6 +543,38 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
             catch (Exception ex)
             {
                 return View();
+            }
+        }
+
+
+                private Word GetRandomWord()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "USE SavvyStudy SELECT TOP 1 * FROM Words ORDER BY NEWID();";
+
+
+                    var reader = cmd.ExecuteReader();
+                    Word word = null;
+
+                    if (reader.Read())
+                    {
+                        word = new Word()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+                    }
+                    reader.Close();
+                    return word;
+                }
             }
         }
 
