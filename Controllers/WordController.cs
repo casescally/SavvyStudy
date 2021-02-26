@@ -318,7 +318,7 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     }
                     reader.Close();
                     
-                    if (word.Untranslated == translatedGuess)
+                    if (word.Translated == translatedGuess)
                     {
                         return View("TranslatedTypedPracticeCorrect", word);
                     } else
