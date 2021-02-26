@@ -112,7 +112,7 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                         //Random rnd = new Random();
                 //int id  = rnd.Next(0, 1);
 
-                            int id = new int();
+            int id = new int();
             Word randomword = GetRandomWord();
             id = randomword.Id;
                    
@@ -123,12 +123,7 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
 
-
-
-
-
-
-cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
 
                     cmd.CommandText = @"
                                       SELECT w.Id,
