@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using SavvyStudy.Models;
 using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography.X509Certificates;
+
 
 namespace SavvyStudy.Controllers
 {
@@ -102,6 +102,15 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     return View(word);
                 }
             }
+        }
+
+
+        public RedirectToActionResult WordPractice()
+
+        {
+
+                    return RedirectToAction("WordUntranslatedTypedPractice", new { id = 5 });
+
         }
 
 
