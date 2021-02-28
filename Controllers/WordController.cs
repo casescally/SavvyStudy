@@ -108,23 +108,35 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         public RedirectToActionResult WordPractice()
 
         {
+                        Random rnd = new Random();
+                int caseSwitch  = rnd.Next(1, 3);
 
-                    return RedirectToAction("WordUntranslatedTypedPractice", new { id = 5 });
+                       Word randomword = GetRandomWord();
+           int id = randomword.Id;
 
+
+            switch (caseSwitch)
+      {
+        case 1:
+
+
+                    return RedirectToAction("WordUntranslatedTypedPractice", new { id = id });
+                    break;
+        case 2:
+                    return RedirectToAction("WordTranslatedTypedPractice", new { id = id });
+              break;
+
+        default:
+                    return null;
+      }
         }
 
 
         // GET: Word/WordUntranslatedTypedPractice/5
-        public ActionResult WordUntranslatedTypedPractice()
+        public ActionResult WordUntranslatedTypedPractice(int id)
 
         {
-                        //Random rnd = new Random();
-                //int id  = rnd.Next(0, 1);
 
-            int id = new int();
-            Word randomword = GetRandomWord();
-            id = randomword.Id;
-                   
 
             using(SqlConnection conn = Connection)
             {
@@ -230,14 +242,9 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
 
 
         // GET: Word/WordTranslatedTypedPractice/5
-        public ActionResult WordTranslatedTypedPractice()
+        public ActionResult WordTranslatedTypedPractice(int id)
 
         {
-                        //Random rnd = new Random();
-                //rnd.Next(0, 1);
-            int id = new int();
-            Word randomword = GetRandomWord();
-            id = randomword.Id;
 
             using(SqlConnection conn = Connection)
             {
@@ -273,7 +280,7 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                         };
 
 
-            wordVM.NextWords = GetNextWords(id); //retrieves from database
+                    wordVM.NextWords = GetNextWords(id); //retrieves from database
 
 
                     }
@@ -329,10 +336,10 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                     
                     if (word.Translated == translatedGuess)
                     {
-                        return View("TranslatedTypedPracticeCorrect", word);
+                        return View("WordTranslatedTypedPracticeCorrect", word);
                     } else
                     {
-                        return View("TranslatedTypedPracticeIncorrect", word);
+                        return View("WordTranslatedTypedPracticeIncorrect", word);
                     }
                     
                     
