@@ -8,7 +8,6 @@ using Microsoft.Data.SqlClient;
 using SavvyStudy.Models;
 using Microsoft.Extensions.Configuration;
 
-
 namespace SavvyStudy.Controllers
 {
     public class WordController : Controller
@@ -28,6 +27,64 @@ namespace SavvyStudy.Controllers
             }
         }
 
+        [HttpGet]
+public ActionResult Search(string search)
+{
+if (!String.IsNullOrEmpty(search))
+        {
+
+                
+
+                            using(SqlConnection conn = Connection)
+            {
+
+
+
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+
+cmd.Parameters.Add(new SqlParameter("@search", search));
+                    cmd.CommandText = "SELECT w.Id, w.Untranslated, w.Translated, w.Pronunciation, w.Language FROM Words w WHERE w.Translated = @search";
+
+                    var reader = cmd.ExecuteReader();
+                    var words = new List<Word>();
+                   
+                    while(reader.Read())
+                    {
+                        var word = new Word()
+                        { 
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                            };
+                        words.Add(word);
+                    }
+                    reader.Close();
+
+               return View(words);
+}
+                        
+
+                    }
+      } else return View();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
 
         // GET: Word
         public ActionResult Index()
@@ -55,6 +112,7 @@ namespace SavvyStudy.Controllers
                         words.Add(word);
                     }
                     reader.Close();
+
                     return View(words);
                 }
             }
@@ -556,6 +614,9 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
                 return View();
             }
         }
+
+
+
 
 
                 private Word GetRandomWord()

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<SavvyStudy.Models.Word>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Search";
 }
+
 
 <h1>Words</h1>
 
@@ -10,7 +10,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<form method="get" asp-action="Search">
+<form method="get" action="@Url.Action("Search", "WordController")">
     <label for="search">Search</label>
     <input type="text" name="search" id="search" />
     <button type="submit">Perform search</button>
