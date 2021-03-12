@@ -56,7 +56,7 @@
 
     function selected(item) {
         this.clear();
-        item.style = "border: 1px solid green;";
+        item.style = "border: 1px solid green; border-radius: 10px 10px 10px; ";
 
         //sets user's answer
         document.getElementById("userInput").value = item.innerHTML.substring(9).replace(/\s/g, "");
