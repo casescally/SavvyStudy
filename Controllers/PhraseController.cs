@@ -31,7 +31,34 @@ namespace SavvyStudy.Controllers
         // GET: Phrase
         public ActionResult Index()
         {
-            return View();
+ using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Id, Untranslated, Translated, Pronunciation, DifficultyLevel, Language FROM Phrases";
+
+                    var reader = cmd.ExecuteReader();
+                    var phrases = new List<Phrase>();
+                   
+                    while(reader.Read())
+                    {
+                        var phrase = new Phrase()
+                        { 
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            DifficultyLevel = reader.GetInt32(reader.GetOrdinal("DifficultyLevel")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                            };
+                        phrases.Add(phrase);
+                    }
+                    reader.Close();
+
+                    return View(phrases);
+                }
+            }
         }
 
         // GET: Phrase/Details/5

@@ -140,3 +140,4 @@ C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\WordTranslatedTypedPracticeIncorrect.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Word\Search.cshtml.g.cs
 C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Phrase\Create.cshtml.g.cs
+C:\Users\casescally\source\repos\SavvyStudy\obj\Debug\netcoreapp3.1\Razor\Views\Phrase\Index.cshtml.g.cs
