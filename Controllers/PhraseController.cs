@@ -61,10 +61,52 @@ namespace SavvyStudy.Controllers
             }
         }
 
+
+        [Route("phrase/{phraseId}")]
         // GET: Phrase/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+ using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+
+cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    cmd.CommandText = @"
+                                      SELECT p.Id,
+                                        p.Untranslated,
+                                        p.Translated,
+                                        p.Pronunciation,
+                                        p.DifficultyLevel,
+                                        p.Language
+                                      FROM Phrases p
+                                      WHERE p.Id = @id
+                                      ";
+                    
+                    
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Phrase phrase = null;
+                    while (reader.Read())
+                    {
+                        phrase = new Phrase
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            DifficultyLevel = reader.GetInt32(reader.GetOrdinal("DifficultyLevel")),
+                            Language = reader.GetString(reader.GetOrdinal("Language"))
+                        };
+
+                    }
+                    reader.Close();
+                    return View(phrase);
+                }
+            }
         }
 
         // GET: Phrase/Create
