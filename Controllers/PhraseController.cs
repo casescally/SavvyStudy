@@ -61,8 +61,6 @@ namespace SavvyStudy.Controllers
             }
         }
 
-
-        [Route("phrase/{phraseId}")]
         // GET: Phrase/Details/5
         public ActionResult Details(int id)
         {
@@ -176,24 +174,75 @@ cmd.Parameters.Add(new SqlParameter("@id", id));
         // GET: Phrase/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+
+            var phrase = GetPhraseById(id);
+            return View(phrase);
         }
 
         // POST: Phrase/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeletePhrase([FromRoute] int id)
         {
             try
             {
-                // TODO: Add delete logic here
+                using(SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "DELETE FROM Words WHERE Id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
         }
+
+
+
+                        private Phrase GetPhraseById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Id, Untranslated, Translated, Pronunciation, Language, DifficultyLevel FROM Phrases WHERE Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    var reader = cmd.ExecuteReader();
+                    Phrase phrase = null;
+
+                    if (reader.Read())
+                    {
+                        phrase = new Phrase()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Untranslated = reader.GetString(reader.GetOrdinal("Untranslated")),
+                            Translated = reader.GetString(reader.GetOrdinal("Translated")),
+                            Pronunciation = reader.GetString(reader.GetOrdinal("Pronunciation")),
+                            Language = reader.GetString(reader.GetOrdinal("Language")),
+                            DifficultyLevel = reader.GetInt32(reader.GetOrdinal("DifficultyLevel"))
+                        };
+
+                    }
+                    reader.Close();
+                    return phrase;
+                }
+            }
+        }
+
+
+
+        
     }
 }
